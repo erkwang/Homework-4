@@ -11,7 +11,7 @@ apcount = function(path){
   totallines = system(paste("wc -l", path), intern = TRUE)
   totallines = as.numeric(gsub("[space]*([0-9]+) .+", "\\1", totallines))
   #create connection to the file
-  con = file(filepath, open="rt")
+  con = file(path, open="rt")
   #construct vector for counting airports
   counts = structure(integer(4), names = c("LAX", "OAK","SFO", "SMF"))
   #while loop to read rest of the file
