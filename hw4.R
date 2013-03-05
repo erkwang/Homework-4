@@ -16,8 +16,8 @@ apcount = function(path){
   con = file(path, open="rt")
   #construct vector for counting airports
   counts = structure(integer(4), names = c("LAX", "OAK","SFO", "SMF"))
-  #initialize vectors for departure delaying time mean and sum of squares
-  apmean = structure(numeric(4), names = c("LAX", "OAK","SFO", "SMF"))
+  #initialize vectors for departure delaying time sum and sum of squares
+  apsum = structure(numeric(4), names = c("LAX", "OAK","SFO", "SMF"))
   apsumsq = structure(numeric(4), names = c("LAX", "OAK","SFO", "SMF"))
   #while loop to read rest of the file
   while (TRUE) {
@@ -34,22 +34,22 @@ apcount = function(path){
     tmp[is.na(tmp)] = 0
     #add it to counts
     counts = counts + tmp
-    #get mean and ss of delaying time
-    tmp2 = by(airports[1,], airports[2,], meanss)[names(counts)]
-    meanvec = sapply(tmp2, function(x)x[1])
+    #get sum and ss of delaying time
+    tmp2 = by(airports[1,], airports[2,], sumss)[names(counts)]
+    sumvec = sapply(tmp2, function(x)x[1])
     ssvec = sapply(tmp2, function(x)x[2])
-    #add them to mean and ss
-    apmean = apmean + meanvec
+    #add them to sum and ss
+    apsum = apsum + sumvec
     apsumsq = apsumsq + ssvec
   }
   close(con)
-  return(list(count = counts, mean = apmean, ss = apsumsq))
+  return(list(count = counts, sum = apsum, ss = apsumsq))
 }
 
 #function to get mean and sum of squares
-meanss = function(vec){
+sumss = function(vec){
   vec = as.numeric(vec)
-  foo1 = mean(vec, na.rm = TRUE)
+  foo1 = sum(vec, na.rm = TRUE)
   foo2 = sum(vec^2, na.rm = TRUE)
   c(foo1, foo2)
 }
@@ -58,3 +58,11 @@ meanss = function(vec){
 Rprof("./Rprof.out")
 count19 = apcount(filepath1)
 count20 = apcount(filepath2)
+
+#obtain the total counts, overall mean and sd
+completecountR = count19[[1]]+count20[[1]]
+completemeanR = (count19[[1]]*count19[[2]]+count20[[1]]*count20[[2]])/completecountR
+completesdR = sqrt((count19[[3]] + count20[[3]] - completecountR * completemeanR)/
+                     (completecountR-1))
+
+
