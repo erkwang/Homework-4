@@ -16,10 +16,9 @@ shellexe = function(path){
   list(shellcount, shelldelay)
 }
 
-cut -f 16-17 -d , ~/Downloads/2008.csv | grep ',LAX' | cut -f 1 -d , | tee  ./LAX | wc -l &
+#abtain the result from given file
+Rprof("./shell.out")
+shell19 = shellexe("./Years1987_1999.tar")
+shell20 = shellexe("./Years2000_2008.tar")
 
-
-bob = 
-  system("cut -f 16-17 -d ,  ~/Downloads/2008.csv | grep ',LAX' | tee >(wc -l) >(cut -f 1 -d ,)",
-         intern = TRUE)
 
