@@ -61,8 +61,8 @@ count20 = apcount(filepath2)
 
 #obtain the total counts, overall mean and sd
 completecountR = count19[[1]]+count20[[1]]
-completemeanR = (count19[[1]]*count19[[2]]+count20[[1]]*count20[[2]])/completecountR
-completesdR = sqrt((count19[[3]] + count20[[3]] - completecountR * completemeanR)/
+completemeanR = (count19[[2]]+count20[[2]])/completecountR
+completesdR = sqrt((count19[[3]] + count20[[3]] - completecountR * completemeanR^2)/
                      (completecountR-1))
 
 
