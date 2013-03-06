@@ -9,9 +9,6 @@ filepath2 = "~/Downloads/Years2000_2008.tar"
 
 #function to get the counts for each airports
 apcount = function(path){
-  #get the line count of the file with shell command
-  totallines = system(paste("wc -l", path), intern = TRUE)
-  totallines = as.numeric(gsub("[space]*([0-9]+) .+", "\\1", totallines))
   #create connection to the file
   con = file(path, open="rt")
   #construct vector for counting airports
