@@ -16,8 +16,21 @@ sapply(csvls, function(path){
 close(writecon)
 
 #the database airline.db was created in sqlite with given code and the csv file
+library(RSQLite)
+#connect to database
+drv = dbDriver("SQLite")
+dbcon = dbConnect(drv, dbname = "~/Downloads/airline.db")
+dbGetQuery(dbcon, "SELECT origin FROM delays")
 
-#
+
+
+
+
+
+
+
+
+
 
 
 
