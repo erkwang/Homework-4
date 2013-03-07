@@ -20,11 +20,16 @@ library(RSQLite)
 #connect to database
 drv = dbDriver("SQLite")
 dbcon = dbConnect(drv, dbname = "~/Downloads/airline.db")
-dbGetQuery(dbcon, "SELECT origin FROM delays")
+apcountsql = dbGetQuery(dbcon, "SELECT count(*) 
+                                FROM delays WHERE origin = 'LAX' OR origin = 'SFO' 
+                                OR origin = 'OAK' OR origin = 'SMF' 
+                                GROUP BY origin")
+apmeansql = dbGetQuery(dbcon, "SELECT AVG(DepTime) 
+                               FROM delays WHERE origin = 'LAX' OR origin = 'SFO' 
+                               OR origin = 'OAK' OR origin = 'SMF' 
+                               GROUP BY origin")
 
-
-
-
+apsdsql = dbGetQuery(dbcon, 
 
 
 
