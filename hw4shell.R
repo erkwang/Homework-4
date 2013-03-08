@@ -21,4 +21,13 @@ Rprof("./shell.out")
 shell19 = shellexe("./Years1987_1999.tar")
 shell20 = shellexe("./Years2000_2008.tar")
 
+#combine and analyze result
+countshell = as.numeric(shell19[[1]])+as.numeric(shell20[[1]])
+names(countshell) = c("LAX", "OAK", "SFO", "SMF")
+depdelayshell = lapply(1:4, function(i){
+  as.numeric(c(shell19[[2]][[i]],shell20[[2]][[i]]))})
+meanshell = sapply(depdelayshell, mean, na.rm = TRUE)
+sdshell = sapply(depdelayshell, sd, na.rm = TRUE)
+resultshell = data.frame(count = countshell, mean = meanshell, sd = sdshell)
+
 

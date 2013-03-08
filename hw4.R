@@ -32,7 +32,8 @@ apcount = function(path){
     #add it to counts
     counts = counts + tmp
     #get sum and ss of delaying time
-    tmp2 = by(airports[1,], airports[2,], sumss)[names(counts)]
+    tmp2 = split(airports[1,], as.factor(airports[2,]))[names(counts)]
+    tmp2 = lapply(tmp2, sumss)
     sumvec = sapply(tmp2, function(x)x[1])
     ssvec = sapply(tmp2, function(x)x[2])
     #add them to sum and ss
@@ -57,8 +58,8 @@ count19 = apcount(filepath1)
 count20 = apcount(filepath2)
 
 #obtain the total counts, overall mean and sd
-completecountR = count19[[1]]+count20[[1]]
-completemeanR = (count19[[2]]+count20[[2]])/completecountR
+countR = count19[[1]]+count20[[1]]
+meanR = (count19[[2]]+count20[[2]])/completecountR
 completesdR = sqrt((count19[[3]] + count20[[3]] - completecountR * completemeanR^2)/
                      (completecountR-1))
 

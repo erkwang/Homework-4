@@ -20,16 +20,33 @@ library(RSQLite)
 #connect to database
 drv = dbDriver("SQLite")
 dbcon = dbConnect(drv, dbname = "~/Downloads/airline.db")
+
+#calculate counts and mean departure delaying time for each airport
+timesql = system.time({
 apcountsql = dbGetQuery(dbcon, "SELECT count(*) 
                                 FROM delays WHERE origin = 'LAX' OR origin = 'SFO' 
                                 OR origin = 'OAK' OR origin = 'SMF' 
                                 GROUP BY origin")
-apmeansql = dbGetQuery(dbcon, "SELECT AVG(DepTime) 
+})
+apmeansql = dbGetQuery(dbcon, "SELECT AVG(DepDelay) 
                                FROM delays WHERE origin = 'LAX' OR origin = 'SFO' 
                                OR origin = 'OAK' OR origin = 'SMF' 
                                GROUP BY origin")
 
-apsdsql = dbGetQuery(dbcon, 
+#calculate sd and departure delay with function extensions
+library(RSQLite.extfuns)
+init_extensions(db=dbcon)
+apsdsql = dbGetQuery(dbcon, "SELECT STDEV(DepDelay)
+                             FROM delays WHERE origin = 'LAX' OR origin = 'SFO' 
+                             OR origin = 'OAK' OR origin = 'SMF' 
+                             GROUP BY origin")
+#close connection and unload driver
+dbDisconnect(dbcon)
+dbUnloadDriver(drv)
+
+#give names to values in results
+resultsql = cbind(apcountsql, apmeansql, apsdsql)
+rownames(resultsql) = c("LAX", "OAK", "SFO", "SMF")
 
 
 
