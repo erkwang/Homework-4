@@ -59,8 +59,7 @@ count20 = apcount(filepath2)
 
 #obtain the total counts, overall mean and sd
 countR = count19[[1]]+count20[[1]]
-meanR = (count19[[2]]+count20[[2]])/completecountR
-completesdR = sqrt((count19[[3]] + count20[[3]] - completecountR * completemeanR^2)/
-                     (completecountR-1))
-
+meanR = (count19[[2]]+count20[[2]])/countR
+sdR = sqrt((count19[[3]] + count20[[3]] - countR * meanR^2)/(countR-1))
+resultR = data.frame(count = countR, mean = meanR, sd = sdR)
 
