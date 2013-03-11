@@ -10,7 +10,7 @@ filepath2 = "~/Downloads/Years2000_2008.tar"
 #function to get the counts for each airports
 apcount = function(path, B = 5000000){
   #create connection to the file
-  con = pipe(paste("tar xf ", path, " -O | egrep 'LAX|OAK|SFO|SMF'", sep = ""))
+  con = file(path, open="rt")
   #construct vector for counting airports
   counts = structure(integer(4), names = c("LAX", "OAK","SFO", "SMF"))
   #initialize vectors for departure delaying time sum and sum of squares
