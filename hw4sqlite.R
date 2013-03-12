@@ -28,6 +28,8 @@ apcountsql = dbGetQuery(dbcon, "SELECT count(*)
                                 OR origin = 'OAK' OR origin = 'SMF' 
                                 GROUP BY origin")
 })
+#track time for other two query calls
+Rprof("~/Downloads/sql.out")
 apmeansql = dbGetQuery(dbcon, "SELECT AVG(DepDelay) 
                                FROM delays WHERE origin = 'LAX' OR origin = 'SFO' 
                                OR origin = 'OAK' OR origin = 'SMF' 
